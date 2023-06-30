@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "325746831998",
+    "project_id": "top-science-8fd65",
+    "storage_bucket": "top-science-8fd65.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:325746831998:android:5933107a9444a55082de2f",
+        "android_client_info": {
+          "package_name": "com.example.untitled4"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "325746831998-k5kb4jsda8qpi6rubit1u8dobc6saqjs.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBVq1hJ2eoPfk2X7jJqOJIMPX8doxaKi5g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "325746831998-k5kb4jsda8qpi6rubit1u8dobc6saqjs.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
