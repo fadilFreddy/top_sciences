@@ -44,7 +44,12 @@ dependencies:
   cloud_firestore: ^4.8.1
   persistent_bottom_nav_bar: ^5.0.2
   bubble_bottom_bar: ^2.0.0
-  pdfx: ^2.3.0
+  pdfx: ^2.4.0
+  google_sign_in: ^6.1.4
+  dropdown_button2: ^2.3.6
+  http: ^1.1.0
+  syncfusion_flutter_pdfviewer: ^22.2.9
+  flutter_cached_pdfview: ^0.4.2
 
 
 dev_dependencies:

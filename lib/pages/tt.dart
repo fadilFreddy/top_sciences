@@ -1,52 +1,29 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:pdfx/pdfx.dart';
+import 'package:flutter_cached_pdfview/flutter_cached_pdfview.dart';
 
-class pdfViewer extends StatefulWidget {
-  const pdfViewer({super.key});
 
+
+class MyApp extends StatefulWidget{
   @override
-  State<pdfViewer> createState() => _pdfViewerState();
+  State<MyApp> createState() => _MyAppState();
 }
 
-class _pdfViewerState extends State<pdfViewer> {
-
-  late PdfController pdfController;
-
-  @override
-  void initState(){
-    super.initState();
-    loadController();
-  }
-  
-  loadController(){
-    pdfController = PdfController(document: PdfDocument.openAsset('assets/docs/TOP-SCIENCE.pdf'));
-  }
-
+class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Cours'),
-        backgroundColor: const Color(0xFF233B23),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.search),
-            color: Colors.blue,
-            onPressed: () {
-              // Action de recherche
-
-            },
-          ),
-        ],
-      ),
-      body: Center(
-        child: Column(
-          children: [
-            PdfView(controller: pdfController)
-          ],
+        appBar: AppBar(
+            title:Text("View PDF with Caching"), //appbar title
+            backgroundColor: Colors.redAccent //appbar background color
         ),
-      ),
+        body: Container(
+            child: PDF().cachedFromUrl(
+              'https://firebasestorage.googleapis.com/v0/b/top-science-8fd65.appspot.com/o/cours%2FTOP-SCIENCE.pdf?alt=media&token=1f589eea-258f-49fb-a1de-b1aeb7c9815a',
+              maxAgeCacheObject:Duration(days: 30), //duration of cache
+              placeholder: (progress) => Center(child: Text('$progress %')),
+              errorWidget: (error) => Center(child: Text(error.toString())),
+            )
+        )
     );
   }
 }

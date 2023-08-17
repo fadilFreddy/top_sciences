@@ -1,10 +1,60 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:untitled4/pages/accueil.dart';
 
 import 'inscription.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
+final GoogleSignIn _googleSignIn = GoogleSignIn();
+
+Future<User?> signInWithGoogle(BuildContext context) async {
+  try {
+    // Step 1: Demander à l'utilisateur de se connecter avec son compte Google
+    final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
+    if (googleUser == null) {
+      // L'utilisateur a annulé la connexion avec Google
+      return null;
+    }
+
+    // Step 2: Obtenir les informations d'identification Google
+    final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+
+    // Step 3: Créer une nouvelle authentification avec Google
+    final AuthCredential credential = GoogleAuthProvider.credential(
+      accessToken: googleAuth.accessToken,
+      idToken: googleAuth.idToken,
+    );
+
+    // Step 4: Connexion à Firebase avec les informations d'identification Google
+    final UserCredential userCredential = await _auth.signInWithCredential(credential);
+
+    // Step 5: Récupérer l'utilisateur connecté
+    final User? user = userCredential.user;
+
+    return user;
+  } catch (e) {
+    print(e.toString());
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Erreur de connexion Google'),
+          content: const Text('Une erreur s\'est produite lors de la connexion avec Google. Veuillez réessayer.'),
+          actions: <Widget>[
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
+    return null;
+  }
+}
 
 class HomePage extends StatelessWidget {
   HomePage({Key? key}) : super(key: key);
@@ -107,6 +157,28 @@ class HomePage extends StatelessWidget {
                   color: Colors.blue,
                 ),
               ),
+            ), // Bouton pour se connecter avec Google
+            ElevatedButton.icon(
+              style: ButtonStyle(
+                padding: MaterialStateProperty.all(const EdgeInsets.all(20)),
+                backgroundColor: MaterialStateProperty.all(Colors.blue),
+              ),
+              onPressed: () async {
+                print("Réussie");
+                User? user = await signInWithGoogle(context);
+                if (user != null) {
+                  // L'utilisateur est connecté avec succès
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => HomePagee()),
+                  );
+                }
+              },
+              label: const Text(
+                "Se connecter avec Google",
+                style: TextStyle(fontSize: 20),
+              ),
+              icon: const Icon(Icons.login_outlined),
             ),
           ],
         ),
@@ -139,7 +211,7 @@ class _PasswordFieldState extends State<PasswordField> {
         labelText: 'Mot de passe',
         hintText: 'Entrez votre mot de passe',
         prefixIcon: const Icon(Icons.lock_outline),
-        prefixIconColor: Color(0xFF233B23),
+        prefixIconColor: const Color(0xFF233B23),
         suffixIcon: GestureDetector(
           onTap: () {
             setState(() {
