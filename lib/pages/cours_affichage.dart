@@ -41,7 +41,7 @@ class _AfficheCoursState extends State<AfficheCours> {
 
   Future<Uint8List?> downloadPDF() async {
     final response = await http.get(Uri.parse(
-        'firebasestorage.googleapis.com/v0/b/top-science-8fd65.appspot.com/o/cours%2FTOP-SCIENCE.pdf?alt=media&token=1f589eea-258f-49fb-a1de-b1aeb7c9815a'));
+        'https://firebasestorage.googleapis.com/v0/b/top-science-8fd65.appspot.com/o/cours%2FTOP-SCIENCE.pdf?alt=media&token=1f589eea-258f-49fb-a1de-b1aeb7c9815a'));
 
     if (response.statusCode == 200)
 
